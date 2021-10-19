@@ -17,9 +17,9 @@ bool discord_hook(uintptr_t original, uintptr_t hook, uintptr_t tramp)
         uintptr_t discord_base = (uintptr_t)GetModuleHandleA("DiscordHook64.dll");
         PIMAGE_NT_HEADERS nt = (PIMAGE_NT_HEADERS)(((PIMAGE_DOS_HEADER)discord_base)->e_lfanew + discord_base);
         DWORD discord_size = nt->OptionalHeader.SizeOfImage;
-        CreateHook = (CreateHook_t)utils::scanpattern((uintptr_t)GetModuleHandleA("DiscordHook64.dll"), discord_size, "41 57 41 56 56 57 55 53 48 83 EC 68 4D 89 C6 49 89 D7");
-        EnableHook = (EnableHook_t)utils::scanpattern((uintptr_t)GetModuleHandleA("DiscordHook64.dll"), discord_size,"41 56 56 57 53 48 83 EC 28 49 89 CE BF 01 00 00 00 31 C0 F0 ? ? ? ? ? ? ? 74");
-        EnableHookQue = (EnableHookQueu_t)utils::scanpattern((uintptr_t)GetModuleHandleA("DiscordHook64.dll"), discord_size, "41 57 41 56 41 55 41 54 56 57 55 53 48 83 EC 38 48 ? ? ? ? ? ? 48 31 E0 48 89 44 24 30 BE 01 00 00 00 31 C0 F0 ? ? ? ? ? ? ? 74 2B" );
+        CreateHook = (CreateHook_t)utils::scanpattern(discord_base, discord_size, "41 57 41 56 56 57 55 53 48 83 EC 68 4D 89 C6 49 89 D7");
+        EnableHook = (EnableHook_t)utils::scanpattern(discord_base, discord_size,"41 56 56 57 53 48 83 EC 28 49 89 CE BF 01 00 00 00 31 C0 F0 ? ? ? ? ? ? ? 74");
+        EnableHookQue = (EnableHookQueu_t)utils::scanpattern(discord_base, discord_size, "41 57 41 56 41 55 41 54 56 57 55 53 48 83 EC 38 48 ? ? ? ? ? ? 48 31 E0 48 89 44 24 30 BE 01 00 00 00 31 C0 F0 ? ? ? ? ? ? ? 74 2B" );
         init = true;
     }
     if (CreateHook((LPVOID)original, (LPVOID)hook, (LPVOID*)tramp) == 0)
